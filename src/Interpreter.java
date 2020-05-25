@@ -1,13 +1,22 @@
 package com.andrewhalle.lox;
 
-class Interpreter implements Expr.Visitor<Object> {
-  void interpret(Expr expression) {
+import java.util.List;
+
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+  private Environment environment = new Environment();
+
+  void interpret(List<Stmt> statements) {
     try {
-      Object value = evaluate(expression);
-      System.out.println(stringify(value));
+      for (Stmt statement : statements) {
+        execute(statement);
+      }
     } catch (RuntimeError error) {
       Lox.runtimeError(error);
     }
+  }
+
+  void execute(Stmt stmt) {
+    stmt.accept(this);
   }
 
   private String stringify(Object object) {
@@ -111,6 +120,11 @@ class Interpreter implements Expr.Visitor<Object> {
     return null;
   }
 
+  @Override
+  public Object visitVariableExpr(Expr.Variable expr) {
+    return environment.get(expr.name);
+  }
+
   private void checkNumberOperands(Token operator, Object left, Object right) {
     if (left instanceof Double && right instanceof Double) return;
     throw new RuntimeError(operator, "Operands must be numbers.");
@@ -121,5 +135,29 @@ class Interpreter implements Expr.Visitor<Object> {
     if (a == null) return false;
 
     return a.equals(b);
+  }
+
+  @Override
+  public Void visitExpressionStmt(Stmt.Expression stmt) {
+    evaluate(stmt.expression);
+    return null;
+  }
+
+  @Override
+  public Void visitPrintStmt(Stmt.Print stmt) {
+    Object value = evaluate(stmt.expression);
+    System.out.println(stringify(value));
+    return null;
+  }
+
+  @Override
+  public Void visitVarStmt(Stmt.Var stmt) {
+    Object value = null;
+    if (stmt.initializer != null) {
+      value = evaluate(stmt.initializer);
+    }
+
+    environment.define(stmt.name.lexeme, value);
+    return null;
   }
 }
