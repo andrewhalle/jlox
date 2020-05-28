@@ -1,0 +1,29 @@
+for (var i = 1; i < 100; i = i + 1) {
+    var divisible_by_3 = false;
+    var j = 0;
+    while (j < i) {
+      j = j + 3;
+    }
+    if (j == i) {
+      divisible_by_3 = true;
+    }
+
+    var divisible_by_5 = false;
+    j = 0;
+    while (j < i) {
+      j = j + 5;
+    }
+    if (j == i) {
+      divisible_by_5 = true;
+    }
+
+    if (divisible_by_3 and divisible_by_5) {
+      print "fizzbuzz";
+    } else if (divisible_by_3) {
+      print "fizz";
+    } else if (divisible_by_5) {
+      print "buzz";
+    } else {
+      print i;
+    }
+}
