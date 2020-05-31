@@ -1,0 +1,15 @@
+fun testFunc() {
+  var a = 1;
+
+  fun printBShouldError() {
+    print a;
+    print b;
+  }
+
+  var b = 2;
+
+  return printBShouldError;
+}
+
+var f = testFunc();
+f();

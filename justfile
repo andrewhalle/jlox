@@ -8,5 +8,10 @@ gen-ast:
 clean:
 	rm -rf build
 
-run file:
-  cd build && java com.andrewhalle.lox.Lox ../{{file}}
+run file='""':
+  #!/usr/bin/env sh
+  if [[ {{file}} == "" ]]; then
+    cd build && java com.andrewhalle.lox.Lox
+  else
+    cd build && java com.andrewhalle.lox.Lox ../{{file}}
+  fi
