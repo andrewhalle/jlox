@@ -1,0 +1,15 @@
+class Doughnut {
+  cook() {
+    print "fry it up";
+  }
+}
+
+class BostonCream < Doughnut {
+  cook() {
+    super.cook();
+    print "stuff with custard";
+  }
+}
+
+var bc = BostonCream();
+bc.cook();
