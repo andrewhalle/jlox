@@ -1,0 +1,13 @@
+class Book {
+  init(title, author) {
+    this.title = title;
+    this.author = author;
+  }
+
+  description() {
+    return this.title + " : " + this.author;
+  }
+}
+
+var b = Book("A Hitchhiker's Guide to the Galaxy", "Douglas Adams");
+print b.description();

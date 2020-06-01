@@ -9,7 +9,7 @@ clean:
 	rm -rf build
 
 run file='""':
-  #!/usr/bin/env sh
+  #!/usr/bin/env bash
   if [[ {{file}} == "" ]]; then
     cd build && java com.andrewhalle.lox.Lox
   else
